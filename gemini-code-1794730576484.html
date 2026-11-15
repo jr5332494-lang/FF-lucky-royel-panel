@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLUE PHANTOM - Free Fire Lucky Royale</title>
+    <style>
+        :root {
+            --bg-dark: #04060f;
+            --panel-bg: rgba(11, 15, 33, 0.95);
+            --neon-blue: #00f0ff;
+            --neon-purple: #9d00ff;
+            --neon-pink: #ff007f;
+            --neon-green: #00ff66;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Free Fire & Blue Phantom Background Watermark Logo */
+        .bg-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 90vw;
+            max-width: 520px;
+            max-height: 520px;
+            background: radial-gradient(circle, rgba(0,240,255,0.1) 0%, rgba(157,0,255,0.06) 50%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .bg-watermark img {
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+            opacity: 0.2;
+            filter: drop-shadow(0 0 25px var(--neon-blue));
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, rgba(4,6,15,0.96) 0%, rgba(11,15,33,0.99) 100%);
+            border-left: 1px solid rgba(0,240,255,0.25);
+            border-right: 1px solid rgba(0,240,255,0.25);
+            box-shadow: 0 0 40px rgba(0,0,0,0.95);
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(11, 15, 33, 0.98);
+            border-bottom: 2px solid rgba(0,240,255,0.4);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+            box-shadow: 0 0 12px var(--neon-blue);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-title h1 {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-title p {
+            font-size: 9px;
+            color: var(--neon-blue);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-icon {
+            background: rgba(0,240,255,0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 6px 10px;
+            border-radius: 16px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-icon:active {
+            background: var(--neon-blue);
+            color: #000;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: rgba(4,6,15,0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            padding: 10px 14px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--neon-blue);
+            border-bottom-color: var(--neon-blue);
+            background: rgba(0,240,255,0.06);
+        }
+
+        /* Main Content Views */
+        .view-section {
+            display: none;
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .view-section.active {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Wheel Container */
+        .wheel-card {
+            background: var(--panel-bg);
+            border: 1px solid rgba(0,240,255,0.25);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            box-shadow: inset 0 0 15px rgba(0,240,255,0.05);
+        }
+
+        .current-player-banner {
+            width: 100%;
+            background: rgba(0,240,255,0.1);
+            border: 1px dashed var(--neon-blue);
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .current-player-banner span {
+            font-size: 10px;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .current-player-banner h3 {
+            font-size: 14px;
+            color: var(--neon-blue);
+            font-weight: 800;
+        }
+
+        .wheel-wrapper {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 12px 0;
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 26px solid var(--neon-pink);
+            z-index: 20;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.7));
+        }
+
+        #canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(0,240,255,0.3);
+        }
+
+        .spin-center-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle, #1a2347, #04060f);
+            border: 3px solid var(--neon-blue);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0,240,255,0.6);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .spin-action-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,240,255,0.3);
+            margin-top: 8px;
+        }
+
+        .spin-action-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Cards & Lists */
+        .section-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--neon-blue);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        input {
+            flex: 1;
+            background: rgba(11,15,33,0.9);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        input:focus {
+            border-color: var(--neon-blue);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--neon-blue);
+            color: #000;
+            border: none;
+            padding: 0 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card-box {
+            background: var(--panel-bg);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .scroll-list {
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .list-item button {
+            background: rgba(255,0,0,0.2);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Odds Table */
+        .odds-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 12px;
+        }
+
+        .odds-row:last-child {
+            border-bottom: none;
+        }
+
+        .odds-badge {
+            background: rgba(0,240,255,0.1);
+            color: var(--neon-blue);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: rgba(0,240,255,0.05);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 20px;
+            color: var(--neon-blue);
+            margin-bottom: 4px;
+        }
+
+        .stat-card span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4,6,15,0.88);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-box {
+            background: #0b0f21;
+            border: 2px solid var(--neon-blue);
+            border-radius: 16px;
+            padding: 24px;
+            width: 85%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: 0 0 35px rgba(0,240,255,0.4);
+            animation: popUp 0.3s ease;
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-box h2 {
+            font-size: 20px;
+            color: var(--neon-blue);
+            margin-bottom: 6px;
+        }
+
+        .modal-box p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .prize-highlight {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background: rgba(0,240,255,0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed var(--neon-blue);
+            margin-bottom: 16px;
+        }
+
+        /* Rare Mystery Vault Screen */
+        .vault-box {
+            background: linear-gradient(135deg, #16082f, #0b0f21);
+            border: 2px solid var(--neon-purple);
+            box-shadow: 0 0 40px rgba(157,0,255,0.6);
+        }
+
+        .vault-roulette {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--neon-purple);
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--neon-green);
+            margin: 14px 0;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0,255,102,0.5);
+            text-align: center;
+        }
+
+        #logoUpload {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Free Fire & Blue Phantom Background Watermark Logo -->
+    <div class="bg-watermark">
+        <img id="bgWatermarkImg" src="https://i.imgur.com/8675.jpg" alt="Watermark" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="brand">
+                <div class="logo-box" onclick="document.getElementById('logoUpload').click()" title="Click to change logo">
+                    <img id="headerLogoImg" src="https://i.imgur.com/8675.jpg" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+                </div>
+                <div class="brand-title">
+                    <h1>BLUE PHANTOM</h1>
+                    <p>FF LUCKY ROYALE</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="toggleSound()" id="soundControlBtn">SOUND 🔊</button>
+                <button class="btn-icon" onclick="toggleOverlayMode()">OVERLAY</button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('wheel', this)">🎡 SPIN</button>
+            <button class="tab-btn" onclick="switchTab('queue', this)">👥 QUEUE</button>
+            <button class="tab-btn" onclick="switchTab('odds', this)">📊 ODDS</button>
+            <button class="tab-btn" onclick="switchTab('winners', this)">🏆 WINNERS</button>
+            <button class="tab-btn" onclick="switchTab('stats', this)">📈 STATS</button>
+            <button class="tab-btn" onclick="switchTab('settings', this)">⚙️ CONFIG</button>
+        </div>
+
+        <!-- PAGE 1: SPIN WHEEL -->
+        <div id="wheel-view" class="view-section active">
+            <div class="wheel-card">
+                <div class="current-player-banner">
+                    <span>CURRENT VIEWER / MISSION WINNER</span>
+                    <h3 id="activePlayerDisplay">Select Viewer from Queue</h3>
+                </div>
+
+                <div class="wheel-wrapper">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="canvas" width="400" height="400"></canvas>
+                    <button class="spin-center-btn" onclick="startSpin()">SPIN</button>
+                </div>
+
+                <button class="spin-action-btn" onclick="startSpin()">SPIN LUCKY ROYALE 🎰</button>
+            </div>
+        </div>
+
+        <!-- PAGE 2: LIVE QUEUE -->
+        <div id="queue-view" class="view-section">
+            <div class="card-box">
+                <div class="section-title">Add Comment / Mission Viewer</div>
+                <div class="input-group" style="margin-bottom: 12px;">
+                    <input type="text" id="viewerNameInput" placeholder="Viewer Name / FF UID">
+                    <button class="btn-primary" onclick="addViewer()">+ Add</button>
+                </div>
+                <div class="section-title">Viewer Queue List <button class="btn-icon" onclick="clearQueue()">Clear All</button></div>
+                <div class="scroll-list" id="queueListContainer"></div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: ODDS -->
+        <div id="odds-view" class="view-section">
+            <div class="card-box">
+                <div class="section-title">Balanced 50% Luck Probability</div>
+                <div class="odds-row">
+                    <span>❌ CANCEL / RETRY / AGAIN</span>
+                    <span class="odds-badge" style="background:rgba(255,0,0,0.1); color:#ff4444;">50%</span>
+                </div>
+                <div class="odds-row">
+                    <span>💎 Low Diamonds (25 / 50 Diamonds)</span>
+                    <span class="odds-badge">30%</span>
+                </div>
+                <div class="odds-row">
+                    <span>🔥 Rare Special Vault (Evo Gun, Booyah Pass, Event, 500/1000 Diamond)</span>
+                    <span class="odds-badge" style="background:rgba(157,0,255,0.1); color:var(--neon-purple);">20%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: WINNERS LOG -->
+        <div id="winners-view" class="view-section">
+            <div class="card-box">
+                <div class="section-title">Live Winners Log <button class="btn-icon" onclick="clearWinners()">Clear Log</button></div>
+                <div class="scroll-list" id="winnersListContainer"></div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: STATS DASHBOARD -->
+        <div id="stats-view" class="view-section">
+            <div class="card-box" style="display:flex; flex-direction:column; gap:12px;">
+                <div class="section-title">Live Stream Session Statistics</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4 id="statTotalSpins">0</h4>
+                        <span>Total Spins</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4 id="statTotalWinners">0</h4>
+                        <span>Prizes Won</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4 id="statRetryCount">0</h4>
+                        <span>Cancel / Retry</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4 id="statQueueCount">2</h4>
+                        <span>In Queue</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 6: SETTINGS -->
+        <div id="settings-view" class="view-section">
+            <div class="card-box" style="display:flex; flex-direction:column; gap:12px;">
+                <div class="section-title">Free Fire Channel Config</div>
+                <div class="odds-row">
+                    <span>System Mode</span>
+                    <span class="odds-badge" style="color:var(--neon-green); background:rgba(0,255,102,0.1);">9-Sec Normal Names Spin + Vault</span>
+                </div>
+                <div class="odds-row">
+                    <span>Channel Name</span>
+                    <span class="odds-badge">BLUE PHANTOM</span>
+                </div>
+                <div class="odds-row">
+                    <span>Change Channel Logo</span>
+                    <button class="btn-primary" style="padding:6px 12px; font-size:11px;" onclick="document.getElementById('logoUpload').click()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-box">
+            <h2>LUCKY RESULT</h2>
+            <p id="modalViewerName">Viewer: John Doe</p>
+            <div class="prize-highlight" id="modalPrizeText">CANCEL ❌</div>
+            <button class="spin-action-btn" onclick="closeModal()" style="margin-top:0;">CONTINUE SPINNING ➔</button>
+        </div>
+    </div>
+
+    <!-- Rare Mystery Vault Modal with Auto Jackpot Lottery -->
+    <div class="modal-overlay" id="vaultModal">
+        <div class="modal-box vault-box">
+            <h2 style="color:var(--neon-purple);">🔥 FREE FIRE VAULT JACKPOT! 🔥</h2>
+            <p id="vaultViewerName">Viewer: John Doe</p>
+            <div class="vault-roulette" id="vaultRouletteText">ROLLING JACKPOT...</div>
+            <button class="spin-action-btn" id="vaultClaimBtn" onclick="closeVaultModal()" style="background:linear-gradient(90deg, var(--neon-purple), var(--neon-pink)); color:#fff; display:none;">CLAIM JACKPOT 🏆</button>
+        </div>
+    </div>
+
+    <!-- Hidden File Input for Logo -->
+    <input type="file" id="logoUpload" accept="image/*" onchange="loadCustomLogo(event)">
+
+    <script>
+        /* --- Web Audio Sound FX System --- */
+        let audioCtx = null;
+        let soundOn = true;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSound(type) {
+            if (!soundOn) return;
+            initAudio();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            let now = audioCtx.currentTime;
+
+            if (type === 'spin') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.15);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (type === 'win') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(520, now);
+                osc.frequency.setValueAtTime(680, now + 0.12);
+                osc.frequency.setValueAtTime(920, now + 0.24);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'cancel') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(160, now);
+                osc.frequency.setValueAtTime(100, now + 0.2);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            }
+        }
+
+        function toggleSound() {
+            soundOn = !soundOn;
+            document.getElementById('soundControlBtn').innerText = soundOn ? "SOUND 🔊" : "MUTED 🔇";
+        }
+
+        /* --- Normal Random Player Names (No Stylized Fonts, Boys & Girls Mix) --- */
+        const normalRandomPlayers = [
+            "Rahim Mia", "Tanvir Ahmed", "Nadia Islam", "Shohanur Rahman",
+            "Riya Akter", "Badshah Khan", "Puja Roy", "Rabbi Hasan",
+            "Anika Tabassum", "Sakib Hossain", "Farhan Sadique", "Rima Sultana",
+            "Tuhin Mia", "Priya Das", "Nayeym Rana", "Shmima Khan",
+            "Robiul Islam", "Mehedi Hasan", "Bristy Akter", "Al Amin",
+            "Sumaiya Khan", "Arman Ali", "Taslima Begum", "Juel Rana"
+        ];
+
+        let lastRandomName = "";
+        function getRandomNormalPlayer() {
+            let newName = lastRandomName;
+            // Ensures same name never repeats consecutively in back-to-back spins
+            while (newName === lastRandomName) {
+                newName = normalRandomPlayers[Math.floor(Math.random() * normalRandomPlayers.length)];
+            }
+            lastRandomName = newName;
+            return newName;
+        }
+
+        /* --- Wheel Prizes & Balanced 50% Luck Distribution --- */
+        const prizes = [
+            { name: "CANCEL ❌", color: "#1a1f3c", textColor: "#ff4444", weight: 18 },
+            { name: "RETRY 🔄", color: "#11162d", textColor: "#ffaa00", weight: 16 },
+            { name: "TRY AGAIN 😅", color: "#1a1f3c", textColor: "#ffaa00", weight: 16 },
+            { name: "50 DIAMONDS 💎", color: "#0d2b45", textColor: "#00f0ff", weight: 16 },
+            { name: "25 DIAMONDS 💎", color: "#133859", textColor: "#00f0ff", weight: 14 },
+            { name: "RARE SPECIAL 🔥", color: "#2b0d45", textColor: "#ff00ff", weight: 20 }
+        ];
+
+        // Free Fire Special Rare Vault Jackpots
+        const rareJackpots = [
+            "🔥 EVO GUN UNLOCK",
+            "👑 BOOYAH PASS",
+            "🎯 RANDOM FF EVENT COMPLETE",
+            "💎 500 DIAMONDS",
+            "💎 1000 DIAMONDS",
+            "🎫 WEEKLY / MONTHLY MEMBERSHIP"
+        ];
+
+        let queue = ["Viewer: Rahim (Mission Done)", "Viewer: Tanvir (Comment)"];
+        let winners = [];
+        let currentViewer = queue[0];
+        let isSpinning = false;
+        let currentTotalAngle = 0; 
+        let totalSpinsCount = 0;
+        let totalWinnersCount = 0;
+        let totalRetryCount = 0;
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        function drawWheel() {
+            const totalSlices = prizes.length;
+            const arcSize = (2 * Math.PI) / totalSlices;
+            const radius = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(radius, radius);
+            ctx.rotate(currentTotalAngle);
+
+            for (let i = 0; i < totalSlices; i++) {
+                const startAngle = i * arcSize;
+                const endAngle = (i + 1) * arcSize;
+
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, radius - 5, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = prizes[i].color;
+                ctx.fill();
+                ctx.strokeStyle = "rgba(0,240,255,0.3)";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.rotate(startAngle + arcSize / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = prizes[i].textColor;
+                ctx.font = "bold 12px sans-serif";
+                ctx.fillText(prizes[i].name, radius - 18, 5);
+                ctx.restore();
+            }
+            ctx.restore();
+        }
+
+        function startSpin() {
+            if (isSpinning) return;
+            if (queue.length === 0) {
+                alert("Please add viewers to the Live Queue first!");
+                switchTab('queue', document.querySelectorAll('.tab-btn')[1]);
+                return;
+            }
+
+            isSpinning = true;
+            currentViewer = getRandomNormalPlayer(); // Normal clean name, no styling, changes every spin
+            totalSpinsCount++;
+
+            let clickTimer = setInterval(() => playSound('spin'), 220);
+
+            let rand = Math.random() * 100;
+            let cumulativeWeight = 0;
+            let winningIndex = 0;
+
+            for (let i = 0; i < prizes.length; i++) {
+                cumulativeWeight += prizes[i].weight;
+                if (rand <= cumulativeWeight) {
+                    winningIndex = i;
+                    break;
+                }
+            }
+
+            const totalSlices = prizes.length;
+            const arcSize = (2 * Math.PI) / totalSlices;
+            
+            const extraSpins = 12 * 2 * Math.PI; 
+            const targetSliceAngle = (totalSlices - winningIndex) * arcSize - (arcSize / 2);
+            
+            const absoluteTarget = extraSpins + targetSliceAngle;
+            currentTotalAngle += (absoluteTarget - (currentTotalAngle % (2 * Math.PI)));
+
+            canvas.style.transition = "transform 9s cubic-bezier(0.15, 0.85, 0.05, 1)";
+            canvas.style.transform = `rotate(${currentTotalAngle}rad)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                clearInterval(clickTimer);
+
+                if (winningIndex === 5) {
+                    playSound('win');
+                    triggerRareVault(currentViewer);
+                } else {
+                    let finalPrizeText = prizes[winningIndex].name;
+                    showResultModal(currentViewer, finalPrizeText);
+
+                    if (winningIndex >= 3) {
+                        playSound('win');
+                        totalWinnersCount++;
+                        winners.unshift({ viewer: currentViewer, prize: finalPrizeText, time: new Date().toLocaleTimeString() });
+                        renderWinners();
+                    } else {
+                        playSound('cancel');
+                        totalRetryCount++;
+                    }
+                    updateStats();
+                }
+            }, 9000); 
+        }
+
+        function triggerRareVault(viewer) {
+            document.getElementById('vaultViewerName').innerText = `Winner: ${viewer}`;
+            const rouletteEl = document.getElementById('vaultRouletteText');
+            const claimBtn = document.getElementById('vaultClaimBtn');
+            claimBtn.style.display = 'none';
+            document.getElementById('vaultModal').style.display = 'flex';
+
+            let counter = 0;
+            let rollInterval = setInterval(() => {
+                playSound('spin');
+                let randomItem = rareJackpots[Math.floor(Math.random() * rareJackpots.length)];
+                rouletteEl.innerText = randomItem;
+                counter++;
+                if (counter > 25) {
+                    clearInterval(rollInterval);
+                    playSound('win');
+                    let finalRarePrize = rareJackpots[Math.floor(Math.random() * rareJackpots.length)];
+                    rouletteEl.innerText = "🎉 " + finalRarePrize + " 🎉";
+                    claimBtn.style.display = 'block';
+
+                    totalWinnersCount++;
+                    winners.unshift({ viewer: viewer, prize: "🔥 [FF VAULT] " + finalRarePrize, time: new Date().toLocaleTimeString() });
+                    renderWinners();
+                    updateStats();
+                }
+            }, 90);
+        }
+
+        function closeVaultModal() {
+            document.getElementById('vaultModal').style.display = 'none';
+        }
+
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            if (tabName === 'wheel') document.getElementById('wheel-view').classList.add('active');
+            if (tabName === 'queue') document.getElementById('queue-view').classList.add('active');
+            if (tabName === 'odds') document.getElementById('odds-view').classList.add('active');
+            if (tabName === 'winners') document.getElementById('winners-view').classList.add('active');
+            if (tabName === 'stats') document.getElementById('stats-view').classList.add('active');
+            if (tabName === 'settings') document.getElementById('settings-view').classList.add('active');
+
+            btn.classList.add('active');
+        }
+
+        function addViewer() {
+            const input = document.getElementById('viewerNameInput');
+            if (input.value.trim() !== '') {
+                queue.push(input.value.trim());
+                input.value = '';
+                renderQueue();
+                updateStats();
+                if (queue.length === 1) {
+                    currentViewer = queue[0];
+                    document.getElementById("activePlayerDisplay").innerText = currentViewer;
+                }
+            }
+        }
+
+        function removeQueue(index) {
+            queue.splice(index, 1);
+            renderQueue();
+            updateStats();
+            if (queue.length > 0) {
+                currentViewer = queue[0];
+                document.getElementById("activePlayerDisplay").innerText = currentViewer;
+            } else {
+                currentViewer = "No Viewers in Queue";
+                document.getElementById("activePlayerDisplay").innerText = currentViewer;
+            }
+        }
+
+        function clearQueue() {
+            queue = [];
+            renderQueue();
+            updateStats();
+            currentViewer = "No Viewers in Queue";
+            document.getElementById("activePlayerDisplay").innerText = currentViewer;
+        }
+
+        function renderQueue() {
+            const container = document.getElementById('queueListContainer');
+            container.innerHTML = '';
+            queue.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="list-item">
+                        <span>${index + 1}. ${item}</span>
+                        <button onclick="removeQueue(${index})">Remove</button>
+                    </div>
+                `;
+            });
+            if (queue.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:12px; padding:10px;">Queue is empty</div>`;
+            }
+        }
+
+        function renderWinners() {
+            const container = document.getElementById('winnersListContainer');
+            container.innerHTML = '';
+            winners.forEach((item) => {
+                container.innerHTML += `
+                    <div class="list-item" style="background:rgba(0,240,255,0.05); border-left:3px solid var(--neon-blue);">
+                        <div>
+                            <strong>${item.viewer}</strong><br>
+                            <span style="color:var(--neon-blue);">${item.prize}</span>
+                        </div>
+                        <span style="font-size:10px; color:var(--text-muted);">${item.time}</span>
+                    </div>
+                `;
+            });
+            if (winners.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:12px; padding:10px;">No winners yet</div>`;
+            }
+        }
+
+        function clearWinners() {
+            winners = [];
+            renderWinners();
+        }
+
+        function updateStats() {
+            document.getElementById('statTotalSpins').innerText = totalSpinsCount;
+            document.getElementById('statTotalWinners').innerText = totalWinnersCount;
+            document.getElementById('statRetryCount').innerText = totalRetryCount;
+            document.getElementById('statQueueCount').innerText = queue.length;
+        }
+
+        function showResultModal(viewer, prize) {
+            document.getElementById('modalViewerName').innerText = `Winner: ${viewer}`;
+            document.getElementById('modalPrizeText').innerText = prize;
+            document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+
+        function loadCustomLogo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('headerLogoImg').src = e.target.result;
+                    document.getElementById('bgWatermarkImg').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function toggleOverlayMode() {
+            alert("To use as In-Game Floating Overlay:\n1. Open this app in Chrome.\n2. Use Android Split-Screen or Floating Window over Free Fire game while live streaming!");
+        }
+
+        renderQueue();
+        renderWinners();
+        updateStats();
+        drawWheel();
+    </script>
+</body>
+</html>
